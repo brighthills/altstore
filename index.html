@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AltStore PAL Source</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --card: #ffffff; --text: #1b1b1f; --muted: #62626b;
+    --line: #e3e3e0; --accent: #1f6feb; --accent-text: #ffffff;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111114; --card: #1a1a1f; --text: #ececf1; --muted: #9a9aa5;
+      --line: #2a2a31; --accent: #4c8dff; --accent-text: #0b0b0e;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; gap: 16px; align-items: center; margin-bottom: 8px; }
+  header img { width: 64px; height: 64px; border-radius: 16px; background: var(--line); }
+  h1 { font-size: 1.75rem; margin: 0; }
+  .subtitle { color: var(--muted); margin: 0; }
+  .description { margin: 16px 0 24px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .button {
+    display: inline-block; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--accent);
+    background: var(--accent); color: var(--accent-text); font-weight: 600; text-decoration: none;
+    font-size: 0.95rem; cursor: pointer;
+  }
+  .button.secondary { background: transparent; color: var(--accent); }
+  .source-url { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 0.85rem;
+    color: var(--muted); word-break: break-all; margin: -28px 0 40px; }
+  h2 { font-size: 1.1rem; margin: 0 0 12px; }
+  .apps { display: grid; gap: 12px; }
+  .app { display: flex; gap: 14px; padding: 14px; background: var(--card);
+    border: 1px solid var(--line); border-radius: 14px; align-items: center; }
+  .app img { width: 56px; height: 56px; border-radius: 13px; flex: none; background: var(--line); }
+  .app-name { font-weight: 600; }
+  .app-meta { color: var(--muted); font-size: 0.9rem; }
+  .app a { margin-left: auto; flex: none; }
+  .note { color: var(--muted); font-size: 0.85rem; margin-top: 40px; }
+  .error { color: #d1242f; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img id="source-icon" alt="">
+    <div>
+      <h1 id="source-name">AltStore PAL Source</h1>
+      <p class="subtitle" id="source-subtitle"></p>
+    </div>
+  </header>
+  <p class="description" id="source-description"></p>
+
+  <div class="actions">
+    <a class="button" id="add-pal" href="#">Add to AltStore PAL</a>
+    <button class="button secondary" id="copy" type="button">Copy source URL</button>
+  </div>
+  <p class="source-url" id="source-url"></p>
+
+  <h2>Apps</h2>
+  <div class="apps" id="apps"></div>
+
+  <p class="note">AltStore PAL is available in the EU. Install it from
+    <a href="https://altstore.io">altstore.io</a>, then add this source.</p>
+</main>
+<script>
+  const sourceUrl = new URL("source.json", location.href).href;
+  const addLink = "altstore-pal://source?url=" + encodeURIComponent(sourceUrl);
+
+  document.getElementById("add-pal").href = addLink;
+  document.getElementById("source-url").textContent = sourceUrl;
+  document.getElementById("copy").addEventListener("click", async (e) => {
+    try {
+      await navigator.clipboard.writeText(sourceUrl);
+      e.target.textContent = "Copied";
+    } catch {
+      e.target.textContent = "Copy failed";
+    }
+  });
+
+  function el(tag, props = {}, children = []) {
+    const node = Object.assign(document.createElement(tag), props);
+    node.append(...children);
+    return node;
+  }
+
+  fetch(sourceUrl, { cache: "no-store" })
+    .then((r) => r.json())
+    .then((src) => {
+      document.title = src.name;
+      document.getElementById("source-name").textContent = src.name;
+      document.getElementById("source-subtitle").textContent = src.subtitle || "";
+      document.getElementById("source-description").textContent = src.description || "";
+      if (src.iconURL) document.getElementById("source-icon").src = src.iconURL;
+
+      const list = document.getElementById("apps");
+      for (const app of src.apps) {
+        const latest = app.versions[0];
+        const meta = latest ? `Version ${latest.version} · ${app.developerName}` : `Coming soon · ${app.developerName}`;
+        list.append(el("div", { className: "app" }, [
+          el("img", { src: app.iconURL, alt: "" }),
+          el("div", {}, [
+            el("div", { className: "app-name", textContent: app.name }),
+            el("div", { className: "app-meta", textContent: app.subtitle || meta }),
+            el("div", { className: "app-meta", textContent: app.subtitle ? meta : "" }),
+          ]),
+          el("a", {
+            className: "button secondary",
+            href: "altstore-pal://viewApp?bundleID=" + encodeURIComponent(app.bundleIdentifier),
+            textContent: "View",
+          }),
+        ]));
+      }
+    })
+    .catch(() => {
+      document.getElementById("apps").append(
+        el("p", { className: "error", textContent: "Couldn't load source.json." }));
+    });
+</script>
+</body>
+</html>

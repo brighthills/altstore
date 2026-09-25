@@ -1,0 +1,52 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Called by publish-adp.yml: pushes made with GITHUB_TOKEN don't trigger `push` workflows.
+  workflow_call:
+    inputs:
+      ref:
+        description: Commit to deploy
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Validate source.json
+        run: python3 scripts/publish_adp.py validate
+
+      - name: Build site
+        run: |
+          mkdir -p _site
+          cp index.html source.json _site/
+          if [ -d assets ]; then cp -r assets _site/; fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

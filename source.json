@@ -1,0 +1,33 @@
+{
+  "name": "BrightHills",
+  "subtitle": "Apps by BrightHills",
+  "description": "The official AltStore PAL source for BrightHills apps.",
+  "iconURL": "https://brighthills.github.io/altstore/assets/source-icon.png",
+  "headerURL": "https://brighthills.github.io/altstore/assets/source-header.png",
+  "website": "https://brighthills.github.io/altstore/",
+  "tintColor": "#1F6FEB",
+  "nsfw": false,
+  "featuredApps": [
+    "com.brighthills.REPLACE_ME"
+  ],
+  "apps": [
+    {
+      "name": "REPLACE_ME App Name",
+      "bundleIdentifier": "com.brighthills.REPLACE_ME",
+      "marketplaceID": "REPLACE_ME",
+      "developerName": "BrightHills",
+      "subtitle": "REPLACE_ME one-line tagline",
+      "localizedDescription": "REPLACE_ME full description of the app.",
+      "iconURL": "https://brighthills.github.io/altstore/assets/app/icon.png",
+      "tintColor": "#1F6FEB",
+      "category": "utilities",
+      "screenshots": [],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      },
+      "versions": []
+    }
+  ],
+  "news": []
+}

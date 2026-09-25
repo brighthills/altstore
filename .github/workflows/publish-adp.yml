@@ -1,0 +1,59 @@
+name: Publish ADP
+
+on:
+  workflow_dispatch:
+    inputs:
+      adp_id:
+        description: Alternative Distribution Package ID (App Store Connect → app → Distribution → History)
+        type: string
+        required: true
+      notes:
+        description: Release notes shown in AltStore (optional)
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-adp
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Fetch ADP, upload to Releases, update source.json
+        id: publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ADP_ID: ${{ inputs.adp_id }}
+          NOTES: ${{ inputs.notes }}
+        run: python3 scripts/publish_adp.py publish --adp-id "$ADP_ID" --notes "$NOTES"
+
+      - name: Commit source.json
+        id: commit
+        env:
+          SUMMARY: ${{ steps.publish.outputs.summary }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add source.json
+          git commit -m "Publish $SUMMARY"
+          git push
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: publish
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
+    with:
+      ref: ${{ needs.publish.outputs.sha }}
