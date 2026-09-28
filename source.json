@@ -55,7 +55,40 @@
           "NSCameraUsageDescription": "Camera access is used to scan a tenant's invite QR code."
         }
       },
-      "versions": []
+      "versions": [
+        {
+          "version": "1.3.2",
+          "buildVersion": "14",
+          "date": "2026-09-28T12:38:21Z",
+          "downloadURL": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/manifest.json",
+          "size": 22153288,
+          "minOSVersion": "15.0",
+          "assetURLs": {
+            "07fdaa68-cee0-3add-9136-04a7f32ed306": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/07fdaa68-cee0-3add-9136-04a7f32ed306.ipa",
+            "51f02892-ef43-33d0-8a78-c62081486b51": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/51f02892-ef43-33d0-8a78-c62081486b51.ipa",
+            "64788912-1631-32ae-b33b-cbc5bc853d47": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/64788912-1631-32ae-b33b-cbc5bc853d47.ipa",
+            "6b779646-9f69-3d58-9516-28ee6977ae23": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/6b779646-9f69-3d58-9516-28ee6977ae23.ipa",
+            "858a1c11-9ffc-3946-9f05-4b05975ed139": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/858a1c11-9ffc-3946-9f05-4b05975ed139.ipa",
+            "b147a55c-5804-3f05-af9b-fd77d51a881b": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/b147a55c-5804-3f05-af9b-fd77d51a881b.ipa",
+            "b97cef5c-64b4-30e9-a6b3-c00907db39d4": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/b97cef5c-64b4-30e9-a6b3-c00907db39d4.ipa",
+            "da968300-4fb8-387d-bb87-68b1dcbe4913": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/da968300-4fb8-387d-bb87-68b1dcbe4913.ipa",
+            "daacb047-2cfb-3ea8-b0b9-4c7c75175a5a": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/daacb047-2cfb-3ea8-b0b9-4c7c75175a5a.ipa",
+            "db94e319-e49c-3de6-bbf6-86eda2a44ca5": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/db94e319-e49c-3de6-bbf6-86eda2a44ca5.ipa",
+            "e861c11b-5456-35c6-b7f1-36c658e1e78c": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/e861c11b-5456-35c6-b7f1-36c658e1e78c.ipa",
+            "eb911759-83a8-3bc2-a222-899e12e693e6": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/eb911759-83a8-3bc2-a222-899e12e693e6.ipa",
+            "manifest": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/manifest.json",
+            "signature": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/signature",
+            "016f4c54-ca77-3f1f-bc9e-91ce68706218": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/016f4c54-ca77-3f1f-bc9e-91ce68706218.ipa",
+            "0176dc6d-056c-382e-9a80-ee04ed88c84f": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/0176dc6d-056c-382e-9a80-ee04ed88c84f.ipa",
+            "27ebf11e-e8df-33ac-986e-b5194e89b52f": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/27ebf11e-e8df-33ac-986e-b5194e89b52f.ipa",
+            "50f91cd4-c0f2-3f8d-9163-c42d665f2120": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/50f91cd4-c0f2-3f8d-9163-c42d665f2120.ipa",
+            "6df38560-e27a-305e-8283-128c764e6b75": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/6df38560-e27a-305e-8283-128c764e6b75.ipa",
+            "7538f085-0386-34e1-acc4-1e4ffb746d92": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/7538f085-0386-34e1-acc4-1e4ffb746d92.ipa",
+            "7e9efb63-d735-3cd0-bce7-6bcd683a602c": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/7e9efb63-d735-3cd0-bce7-6bcd683a602c.ipa",
+            "9c7d16f6-b903-3254-8659-969753172dda": "https://github.com/brighthills/altstore/releases/download/com.brighthills.bhGambling-1.3.2-14/9c7d16f6-b903-3254-8659-969753172dda.ipa"
+          }
+        }
+      ]
     }
   ],
   "news": []
