@@ -48,8 +48,12 @@
         }
       ],
       "appPermissions": {
-        "entitlements": [],
-        "privacy": {}
+        "entitlements": [
+          "aps-environment"
+        ],
+        "privacy": {
+          "NSCameraUsageDescription": "Camera access is used to scan a tenant's invite QR code."
+        }
       },
       "versions": []
     }

@@ -27,7 +27,7 @@ Source URL once deployed: `https://brighthills.github.io/altstore/source.json`
 
 1. Create the **public** repo `brighthills/altstore` (free Pages needs a public repo) and push this folder to `main`.
 2. `source.json` already points at `https://brighthills.github.io/altstore`. If the org or repo name changes, update the URLs in `source.json` to match.
-3. Fill in every `REPLACE_ME` in `source.json`: app name, `bundleIdentifier` (case-sensitive, must match the build), `marketplaceID` and descriptions. `appPermissions` is filled in from the IPA on every publish. The format is described in the [source docs](https://faq.altstore.io/developers/make-a-source).
+3. Fill in every `REPLACE_ME` in `source.json`: app name, `bundleIdentifier` (case-sensitive, must match the build), `marketplaceID`, descriptions and `appPermissions`. List every entitlement from the app's and its extensions' `.entitlements` files, except `application-identifier` and `com.apple.developer.team-identifier`, which AltStore adds itself. Also list every `…UsageDescription` key and its text from their `Info.plist`. AltStore refuses to install a build whose permissions don't match the source, and the IPAs in an ADP are encrypted, so this can't be read from the ADP. Update it whenever a release adds a permission. The format is described in the [source docs](https://faq.altstore.io/developers/make-a-source).
 4. Add the images referenced in `source.json`:
    - `assets/source-icon.jpg`
    - `assets/source-header.jpg`
@@ -45,11 +45,10 @@ To add more apps later, add another entry to `apps` in `source.json` (`versions:
 2. Open *Actions* → **Publish ADP** → *Run workflow*. Paste the ADP ID and optional release notes.
 3. The workflow then:
    1. asks `api.altstore.io` to process the ADP and waits for its download URL;
-   2. unzips it and reads bundle ID, version, build and minimum iOS from the IPAs' `Info.plist`;
+   2. unzips it and reads bundle ID, version, build and minimum iOS from its `manifest.json` (the IPAs inside are encrypted by Apple);
    3. creates the release `<bundleId>-<version>-<build>` with every ADP file attached, unmodified;
-   4. prepends the version to the matching app in `source.json` (`downloadURL` = the release's `manifest.json`, `assetURLs` = every file);
-   5. sets the app's `appPermissions` to the entitlements and `…UsageDescription` keys of the app and its extensions, leaving out `application-identifier` and `com.apple.developer.team-identifier`, which AltStore adds itself. AltStore refuses to install a build whose permissions don't match the source. Then it commits `source.json`;
-   6. redeploys Pages.
+   4. prepends the version to the matching app in `source.json` (`downloadURL` = the release's `manifest.json`, `assetURLs` = every file) and commits it;
+   5. redeploys Pages.
 
 AltStore PAL checks sources periodically, so users get the update automatically.
 
