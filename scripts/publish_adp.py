@@ -4,8 +4,9 @@
 Subcommands:
   configure  Replace the OWNER/REPO placeholder base URL in source.json.
   validate   Check source.json for missing fields, placeholders and broken local asset links.
-  publish    Fetch a notarized ADP from api.altstore.io, upload its files to a GitHub Release
-             and add the version (with assetURLs) to source.json.
+  publish    Fetch a notarized ADP from api.altstore.io, upload its files to a GitHub Release,
+             add the version (with assetURLs) to source.json and set the app's appPermissions
+             from the IPA's entitlements and privacy usage descriptions.
 
 Standard library only; `gh` is required for `publish` unless --dry-run is given.
 """
@@ -15,6 +16,7 @@ import json
 import os
 import plistlib
 import re
+import struct
 import subprocess
 import sys
 import tempfile
@@ -38,6 +40,13 @@ REQUIRED_APP = ("name", "bundleIdentifier", "developerName", "localizedDescripti
 REQUIRED_VERSION = ("version", "buildVersion", "date", "downloadURL", "size")
 
 INFO_PLIST = re.compile(r"^Payload/[^/]+\.app/Info\.plist$")
+BUNDLE_PLIST = re.compile(r"^(Payload/.+\.(?:app|appex))/Info\.plist$")  # app, extensions, watch app
+
+LC_CODE_SIGNATURE = 0x1D
+CSMAGIC_EMBEDDED_SIGNATURE = 0xFADE0CC0
+CSMAGIC_EMBEDDED_ENTITLEMENTS = 0xFADE7171
+# AltStore adds these itself; sources must not list them.
+IMPLICIT_ENTITLEMENTS = {"application-identifier", "com.apple.developer.team-identifier"}
 
 
 # ---------------------------------------------------------------- source.json
@@ -254,6 +263,65 @@ def ipa_info(ipas):
     return infos.pop()
 
 
+def ipa_permissions(ipas):
+    """appPermissions for the app and its extensions. AltStore refuses to install on a mismatch."""
+    entitlements, privacy = set(), {}
+    for ipa in ipas:
+        with zipfile.ZipFile(ipa) as z:
+            names = set(z.namelist())
+            for name in sorted(names):
+                m = BUNDLE_PLIST.match(name)
+                if not m:
+                    continue
+                plist = plistlib.loads(z.read(name))
+                privacy.update({k: v for k, v in plist.items() if k.endswith("UsageDescription")})
+                exe = f"{m[1]}/{plist.get('CFBundleExecutable', '')}"
+                if exe in names:
+                    entitlements.update(macho_entitlements(z.read(exe)))
+    return {"entitlements": sorted(entitlements - IMPLICIT_ENTITLEMENTS),
+            "privacy": dict(sorted(privacy.items()))}
+
+
+def macho_entitlements(binary):
+    """Entitlements embedded in a Mach-O's code signature (thin or universal), or {}."""
+    magic = struct.unpack_from(">I", binary)[0]
+    if magic == 0xCAFEBABE:
+        count = struct.unpack_from(">I", binary, 4)[0]
+        slices = [struct.unpack_from(">I", binary, 8 + i * 20 + 8)[0] for i in range(count)]
+    elif magic == 0xCAFEBABF:
+        count = struct.unpack_from(">I", binary, 4)[0]
+        slices = [struct.unpack_from(">Q", binary, 8 + i * 32 + 8)[0] for i in range(count)]
+    else:
+        slices = [0]
+    entitlements = {}
+    for base in slices:
+        entitlements.update(_slice_entitlements(binary, base))
+    return entitlements
+
+
+def _slice_entitlements(binary, base):
+    header = {b"\xcf\xfa\xed\xfe": 32, b"\xce\xfa\xed\xfe": 28}.get(binary[base:base + 4])
+    if header is None:
+        return {}
+    ncmds = struct.unpack_from("<I", binary, base + 16)[0]
+    pos = base + header
+    for _ in range(ncmds):
+        cmd, size = struct.unpack_from("<II", binary, pos)
+        if cmd == LC_CODE_SIGNATURE:
+            sig = base + struct.unpack_from("<I", binary, pos + 8)[0]
+            magic, _length, count = struct.unpack_from(">III", binary, sig)
+            if magic != CSMAGIC_EMBEDDED_SIGNATURE:
+                return {}
+            for i in range(count):
+                offset = struct.unpack_from(">I", binary, sig + 12 + i * 8 + 4)[0]
+                blob_magic, blob_len = struct.unpack_from(">II", binary, sig + offset)
+                if blob_magic == CSMAGIC_EMBEDDED_ENTITLEMENTS:
+                    return plistlib.loads(binary[sig + offset + 8:sig + offset + blob_len])
+            return {}
+        pos += size
+    return {}
+
+
 # ---------------------------------------------------------------- GitHub Releases
 
 def gh(*args):
@@ -289,10 +357,13 @@ def cmd_publish(args):
             sys.exit("ADP contains no .ipa files")
         bundle_id, version, build, min_os = ipa_info(ipas)
         print(f"ADP: {bundle_id} {version} ({build}), {len(ipas)} IPA variant(s)")
+        permissions = ipa_permissions(ipas)
+        print(f"appPermissions from IPA: {json.dumps(permissions, indent=2, ensure_ascii=False)}")
 
         app = next((a for a in src["apps"] if a.get("bundleIdentifier") == bundle_id), None)
         if app is None:
             sys.exit(f"No app with bundleIdentifier '{bundle_id}' in source.json; add its entry first")
+        app["appPermissions"] = permissions
 
         tag = f"{bundle_id}-{version}-{build}"
         title = f"{app['name']} {version} ({build})"
