@@ -31,8 +31,8 @@ Source URL once deployed: `https://brighthills.github.io/altstore/source.json`
 4. Add the images referenced in `source.json`:
    - `assets/source-icon.jpg`
    - `assets/source-header.jpg`
-   - `assets/app/bh_gambling.png` (app icon, 1024×1024)
-   - optional screenshots under `assets/app/`
+   - `assets/app/bh_gambling/icon.png` (app icon, 1024×1024)
+   - optional screenshots under `assets/app/bh_gambling/screenshots/`
 5. Run `python scripts/publish_adp.py validate` until it prints `source.json OK`.
 6. Repo *Settings* → *Pages* → *Source*: **GitHub Actions**.
 7. Push. The **Deploy Pages** workflow validates `source.json` and publishes the site. It refuses to deploy while placeholders or missing images remain.
