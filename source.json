@@ -2,25 +2,24 @@
   "name": "BrightHills",
   "subtitle": "Apps by BrightHills",
   "description": "The official AltStore PAL source for BrightHills apps.",
-  "iconURL": "https://brighthills.github.io/altstore/assets/source-icon.png",
-  "headerURL": "https://brighthills.github.io/altstore/assets/source-header.png",
+  "iconURL": "https://brighthills.github.io/altstore/assets/source-icon.jpg",
+  "headerURL": "https://brighthills.github.io/altstore/assets/source-header.jpg",
   "website": "https://brighthills.github.io/altstore/",
   "tintColor": "#1F6FEB",
   "nsfw": false,
   "featuredApps": [
-    "com.brighthills.REPLACE_ME"
+    "com.brighthills.bhGambling"
   ],
   "apps": [
     {
-      "name": "REPLACE_ME App Name",
-      "bundleIdentifier": "com.brighthills.REPLACE_ME",
-      "marketplaceID": "REPLACE_ME",
+      "name": "BH Tippjáték",
+      "bundleIdentifier": "com.brighthills.bhGambling",
+      "marketplaceID": "6773243197",
       "developerName": "BrightHills",
-      "subtitle": "REPLACE_ME one-line tagline",
-      "localizedDescription": "REPLACE_ME full description of the app.",
-      "iconURL": "https://brighthills.github.io/altstore/assets/app/icon.png",
+      "localizedDescription": "A BH Gambling egy barátságos tippjáték, amelyet baráti társaságok számára terveztünk. Tippeld meg közelgő sportmérkőzések, sorozatepizódok, választások, megjelenések vagy bármilyen előre eldönthető esemény kimenetelét, szerezz pontokat, és mérd össze tudásodat barátaiddal. Valódi pénz nem vesz részt a játékban.\n\nHOGYAN MŰKÖDIK?\n\n1. Csatlakozz egy barátod (játékmester) által létrehozott játékhoz, vagy hozz létre sajátot.\n2. Add le tippjeidet az események határideje előtt. Párharc eseményeknél eredménytippelhetsz, kieséses rendszer esetén pedig megadhatod a továbbjutót is. Kérdés típusú eseményeknél előre meghatározott válaszlehetőségek közül választhatsz.\n3. Az eredmény kihirdetése után a játékmester kiértékeli az eseményt, a pontok pedig automatikusan jóváírásra kerülnek. Küzdd fel magad a ranglista élére, és szerezz helyet a Dicsőségcsarnokban!\n\nFŐBB FUNKCIÓK\n\n• Két eseménytípus: párharcok (pl. „Magyarország – Szlovákia”) és feleletválasztós kérdések\n• Részletes pontozási rendszer: telitalálat, pontos eredmény, helyes kimenetel és gólkülönbség, továbbjutó eltalálása és egyéb bónuszok\n• Játékonkénti ranglista valós idejű pontszámokkal\n• Személyes ponttörténet és tippelőzmények\n• Beépített csevegés minden játékhoz, valamint külön chat az adott közösség számára\n• Testreszabható értesítések új játékokról, eseményekről, kiértékelésekről és lezárásokról\n• Magyar és angol nyelvű felület\n• Opcionális borítókép, nyeremény és nevezési információ megadása\n• E-mail alapú bejelentkezés kötelező e-mail-cím megerősítéssel, közösségi fiókok nélkül\n\nJÁTÉKKATEGÓRIÁK\n\nSport, Való Élet, Filmek, Sorozatok, Politika, Gaming, Zene és Szórakozás. Ha egy eseménynek van egyértelmű eredménye, abból játékot is lehet készíteni.\n\nJÁTÉKMESTEREK\n\nJátékmesterként saját játékokat hozhatsz létre a kezdetektől a végéig. Megadhatod a leírást, kiválaszthatod a kategóriát, feltölthetsz borítóképet, beállíthatod a pontozási rendszert, eseményeket és résztvevőket kezelhetsz, valamint kiértékelheted az eredményeket. Legalább tíz résztvevő esetén a játék Dicsőségcsarnok-helyezéseket is kioszthat.\n\nDICSŐSÉGCSARNOK\n\nA korábbi játékok dobogósai – az első, második és harmadik helyezettek – örök helyet kapnak az alkalmazás Dicsőségcsarnokában.\n\nÉRTESÍTÉSEK\n\nRészletes beállítások segítségével eldöntheted, milyen eseményekről szeretnél értesítést kapni: új játékok, új események, kiértékelések vagy lezárt játékok. Az értesítések egyetlen érintéssel ki- és bekapcsolhatók.\n\nADATVÉDELEM ÉS BIZTONSÁG\n\nFiókodat a Firebase Authentication védi, kötelező e-mail-cím megerősítéssel. Csak a játék működéséhez szükséges adatokat tároljuk: e-mail-cím, megjelenített név, opcionális profilkép, tippek és chatüzenetek. Minden adat titkosított kapcsolaton keresztül kerül továbbításra. Fiókod és adataid teljes törlését bármikor kérheted; a törlési hivatkozás az áruházbeli adatlapunkon található.\n\nNEM VALÓDI PÉNZES SZERENCSEJÁTÉK\n\nA BH Gambling kizárólag szórakoztató célú tippjáték. Az alkalmazásban nincs fogadás, pénzbefizetés vagy pénznyeremény. A játékmesterek által opcionálisan megadható „nevezési díj” kizárólag az alkalmazáson kívüli, barátok közötti megállapodásra utalhat (például egy kávéra vagy egy házi készítésű trófeára), amelyet az alkalmazás nem kezel és nem dolgoz fel.\n\nTöltsd le a BH Gambling alkalmazást, hívd meg barátaidat, és derítsétek ki, ki ért legjobban a sporthoz, a politikához vagy akár az idei Eurovízióhoz!",
+      "iconURL": "https://brighthills.github.io/altstore/assets/app/bh_gambling.png",
       "tintColor": "#1F6FEB",
-      "category": "utilities",
+      "category": "games",
       "screenshots": [],
       "appPermissions": {
         "entitlements": [],

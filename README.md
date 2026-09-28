@@ -29,9 +29,9 @@ Source URL once deployed: `https://brighthills.github.io/altstore/source.json`
 2. `source.json` already points at `https://brighthills.github.io/altstore`. If the org or repo name changes, update the URLs in `source.json` to match.
 3. Fill in every `REPLACE_ME` in `source.json`: app name, `bundleIdentifier` (case-sensitive, must match the build), `marketplaceID`, descriptions and `appPermissions`. The format is described in the [source docs](https://faq.altstore.io/developers/make-a-source).
 4. Add the images referenced in `source.json`:
-   - `assets/source-icon.png`
-   - `assets/source-header.png`
-   - `assets/app/icon.png`
+   - `assets/source-icon.jpg`
+   - `assets/source-header.jpg`
+   - `assets/app/bh_gambling.png` (app icon, 1024×1024)
    - optional screenshots under `assets/app/`
 5. Run `python scripts/publish_adp.py validate` until it prints `source.json OK`.
 6. Repo *Settings* → *Pages* → *Source*: **GitHub Actions**.
